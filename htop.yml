@@ -1,0 +1,13 @@
+---
+- name: Install htop
+  hosts: vpn
+  become: yes
+  tasks:
+    - name: Update apt-get
+      apt:
+        update_cache: yes
+
+    - name: Install htop
+      apt:
+        name: htop
+        state: present

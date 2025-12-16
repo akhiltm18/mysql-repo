@@ -1,0 +1,22 @@
+---
+- name: Install dstat on Ubuntu
+  hosts: hp
+  become: yes  # Use sudo to run tasks with elevated privileges
+
+  tasks:
+    - name: Update apt package index
+      apt:
+        update_cache: yes
+
+    - name: Install dstat
+      apt:
+        name: dstat
+        state: present
+
+    - name: Verify dstat installation
+      command: dstat --version
+      register: dstat_version
+
+    - name: Display dstat version
+      debug:
+        msg: "Installed dstat version: {{ dstat_version.stdout }}"

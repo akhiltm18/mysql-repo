@@ -1,0 +1,51 @@
+---
+- name: Install MySQL Server
+  hosts: hp
+  become: yes
+  vars:
+    mysql_root_password: "codilar"
+    mysql_package_name: "mysql-server"
+
+  tasks:
+    - name: Update apt package index
+      apt:
+        update_cache: yes
+
+    - name: Install MySQL Server
+      apt:
+        name: "{{ mysql_package_name }}"
+        state: present
+
+    - name: Set MySQL root password
+      mysql_user:
+        name: root
+        password: "{{ codilar }}"
+        host_all: yes
+        priv: '*.*:ALL,GRANT'
+        state: present
+
+    - name: Ensure MySQL is running and enabled on boot
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+
+    - name: Remove the default anonymous MySQL users
+      mysql_user:
+        name: ''
+        host_all: yes
+        state: absent
+
+    - name: Remove the MySQL test database
+      mysql_db:
+        name: test
+        state: absent
+
+    - name: Reload MySQL privilege tables
+      mysql_db:
+        name: ""
+        state: present
+        login_user: root
+        login_password: "{{ codilar }}"
+        login_host: localhost
+        state: reload_privileges

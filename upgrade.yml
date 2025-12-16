@@ -1,0 +1,9 @@
+---
+- name: Update and Upgrade Ubuntu Packages
+  hosts: vismaya
+  become: yes
+  tasks:
+    - name: Perform package upgrade
+      apt:
+        upgrade: yes
+

@@ -1,0 +1,38 @@
+---
+- name: Install PHP 8.1 on Ubuntu
+  hosts: hp
+  become: yes
+
+  tasks:
+    - name: Add Ondřej Surý's PPA for PHP
+      apt_repository:
+        repo: ppa:ondrej/php
+        state: present
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      register: update_result
+
+    - name: Debug update cache result
+      debug:
+        var: update_result
+
+    - name: Install PHP 8.1 and necessary extensions
+      apt:
+        name: 
+          - php8.1
+          - php8.1-cli
+          - php8.1-fpm
+          - php8.1-mysql
+          - php8.1-xml
+          - php8.1-curl
+        state: present
+
+    - name: Ensure PHP-FPM service is started and enabled
+      systemd:
+        name: php8.1-fpm
+        state: started
+        enabled: yes
+

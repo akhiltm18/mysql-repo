@@ -1,0 +1,9 @@
+---
+- name: apt update
+  hosts:  hosts
+  become: yes  # To run the tasks with root privileges
+  
+  tasks:
+    - name: Update 
+      apt:
+        

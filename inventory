@@ -1,0 +1,8 @@
+[hosts]
+aswini  ansible_user=devops
+noufal  ansible_user=devops 
+simya   ansible_user=devops
+arya    ansible_user=devops
+rishan  ansible_user=devops
+vishnu  ansible_user=devops
+vpn     ansble_user=new

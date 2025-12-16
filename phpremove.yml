@@ -1,0 +1,11 @@
+---
+- name: Remove PHPStorm cache
+  hosts: vpn
+  become: yes  # You may need root privileges to remove system-wide caches
+  tasks:
+    - name: Remove  php
+      file:
+        path: //home/codilar/.cache/JetBrains
+        state: absent
+      tags: 
+        - phpstorm

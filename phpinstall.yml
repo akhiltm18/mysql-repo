@@ -1,0 +1,33 @@
+---
+- name: Install PHP 8.2 on Ubuntu
+  hosts: hp
+  become: yes
+
+  tasks:
+    - name: Add repo
+      apt_repository:
+        repo: ppa:ondrej/php
+        state: present
+
+    - name: Update apt 
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install PHP 8.2 and necessary extensions
+      apt:
+        name: 
+          - php8.2
+          - php8.2-cli
+          - php8.2-fpm
+          - php8.2-mysql
+          - php8.2-xml
+          - php8.2-curl
+        state: present
+
+    - name: Ensure PHP-FPM service is started and enabled
+      systemd:
+        name: php8.2-fpm
+        state: started
+        enabled: yes
+

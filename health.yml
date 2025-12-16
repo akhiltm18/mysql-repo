@@ -1,0 +1,12 @@
+---
+- hosts: vismaya
+  gather_facts: yes
+  tasks:
+    - name: Gather system facts
+      setup:
+
+    - name: Collect disk space information
+      command: df -h
+
+    - name: Check system load
+      command: uptime

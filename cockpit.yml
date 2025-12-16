@@ -1,0 +1,22 @@
+---
+- name: Install Cockpit on Ubuntu
+  hosts: vishnu
+  become: yes
+
+  tasks:
+  
+    - name: Update APT package index
+      apt:
+        update_cache: yes
+
+    - name: Install Cockpit package
+      apt:
+        name: cockpit
+        state: present
+
+    - name: Ensure Cockpit service is enabled and started
+      systemd:
+        name: cockpit
+        enabled: yes
+        state: started
+

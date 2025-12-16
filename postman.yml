@@ -1,0 +1,45 @@
+---
+- name: Install Postman on Ubuntu
+  hosts: hp
+  become: yes
+
+  tasks:
+    - name: Ensure wget is installed
+      apt:
+        name: wget
+        state: present
+
+    - name: Download Postman
+      get_url:
+        url: https://dl.pstmn.io/download/latest/linux64
+        dest: /tmp/postman.tar.gz
+
+    - name: Extract Postman
+      unarchive:
+        src: /tmp/postman.tar.gz
+        dest: /opt/
+        creates: /opt/Postman
+
+    - name: Create symlink for Postman
+      file:
+        src: /opt/Postman/Postman
+        dest: /usr/bin/postman
+        state: link
+
+    - name: Create desktop entry for Postman
+      copy:
+        dest: /usr/share/applications/postman.desktop
+        content: |
+          [Desktop Entry]
+          Name=Postman
+          Exec=/opt/Postman/Postman
+          Icon=/opt/Postman/app/resources/app/assets/icon.png
+          Type=Application
+          Categories=Development;IDE;
+        mode: '0644'
+
+    - name: Cleanup temporary files
+      file:
+        path: /tmp/postman.tar.gz
+        state: absent
+

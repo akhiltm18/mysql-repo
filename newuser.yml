@@ -1,0 +1,18 @@
+---
+- name: Create a new user
+  hosts: your_target_hosts
+  become: yes  # To run the tasks with root privileges
+  
+  vars:
+    new_username: your_username_here
+    new_user_password: your_password_here
+    # You can add more variables like user's full name, home directory, etc. if needed.
+
+  tasks:
+    - name: Create user
+      user:
+        name: "{{ new_username }}"
+        password: "{{ new_user_password | password_hash('sha512') }}"
+        # You can set other options like uid, group, shell, etc. as needed
+        createhome: yes
+        state: present

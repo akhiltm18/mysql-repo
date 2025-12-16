@@ -1,0 +1,23 @@
+---
+- name: Install Composer
+  hosts: hp
+  become: yes  # Use sudo to run tasks with elevated privileges
+
+  tasks:
+    - name: Install dependencies for Composer
+      apt:
+        name: 
+          - php-cli
+          - unzip
+        state: present
+        update_cache: yes
+
+    - name: Download Composer installer
+      get_url:
+        url: https://getcomposer.org/installer
+        dest: /tmp/composer-setup.php
+        mode: '0755'
+
+    - name: Verify Composer installer signature (optional but recommended)
+      shell: >
+        php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '48e64f04e986f4d70891785a39fc5
