@@ -1,0 +1,8 @@
+ansible all -m ping -u devops -b -K
+
+ansible-playbook htop.yml -u devops -b -k
+
+ansible-playbook htop.yml -u devops -b -K
+
+ansible-playbook htop.yml -u devops -b -K
+
